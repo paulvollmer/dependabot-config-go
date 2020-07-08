@@ -10,8 +10,19 @@ type Config struct {
 	Updates []Update `yaml:"updates"`
 }
 
+// AddUpdate append an Update item to the Updates array
 func (c *Config) AddUpdate(item Update) {
 	c.Updates = append(c.Updates, item)
+}
+
+// HasPackageEcosystem return true if the given package-ecosystem string exist at the Updates array
+func (c *Config) HasPackageEcosystem(e string) bool {
+	for i := 0; i < len(c.Updates); i++ {
+		if c.Updates[i].PackageEcosystem == e {
+			return true
+		}
+	}
+	return false
 }
 
 // Update docs: https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
@@ -43,8 +54,8 @@ type Schedule struct {
 
 // Allow docs: https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates#allow
 type Allow struct {
-	DependencyName string `"dependency-name,omitempty"`
-	DependencyType string `"dependency-type,omitempty"`
+	DependencyName string `yaml:"dependency-name,omitempty"`
+	DependencyType string `yaml:"dependency-type,omitempty"`
 }
 
 // CommitMessage docs: https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates#commit-message

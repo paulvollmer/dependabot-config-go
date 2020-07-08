@@ -75,6 +75,36 @@ func TestConfigAddUpdate(t *testing.T) {
 	}
 }
 
+func TestConfigHasPackageEcosystem(t *testing.T) {
+	cfg := Config{
+		Updates: []Update{
+			{PackageEcosystem: PackageEcosystemGomod},
+			{PackageEcosystem: PackageEcosystemGitHubActions},
+		},
+	}
+
+	tests := []struct {
+		packageEcosystem string
+		want             bool
+	}{
+		{
+			packageEcosystem: PackageEcosystemGomod,
+			want:             true,
+		},
+		{
+			packageEcosystem: PackageEcosystemNpm,
+			want:             false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.packageEcosystem, func(t *testing.T) {
+			if got := cfg.HasPackageEcosystem(tt.packageEcosystem); got != tt.want {
+				t.Errorf("HasPackageEcosystem %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestIsValidPackageEcosystem(t *testing.T) {
 	tests := []struct {
 		packageEcosystem string
