@@ -10,6 +10,10 @@ type Config struct {
 	Updates []Update `yaml:"updates"`
 }
 
+func (c *Config) AddUpdate(item Update) {
+	c.Updates = append(c.Updates, item)
+}
+
 // Update docs: https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
 type Update struct {
 	PackageEcosystem      string                 `yaml:"package-ecosystem"`
@@ -67,7 +71,7 @@ const (
 	PackageEcosystemComposer      = "composer"
 	PackageEcosystemDocker        = "docker"
 	PackageEcosystemElm           = "elm"
-	PackageEcosystemgitsubmodule  = "gitsubmodule"
+	PackageEcosystemGitsubmodule  = "gitsubmodule"
 	PackageEcosystemGitHubActions = "github-actions"
 	PackageEcosystemGomod         = "gomod"
 	PackageEcosystemGradle        = "gradle"
@@ -102,4 +106,47 @@ func (c *Config) Unmarshal(data []byte) error {
 
 func (c *Config) Marshal() ([]byte, error) {
 	return yaml.Marshal(c)
+}
+
+func IsValidPackageEcosystem(e string) bool {
+	if e == PackageEcosystemBundler ||
+		e == PackageEcosystemCargo ||
+		e == PackageEcosystemComposer ||
+		e == PackageEcosystemDocker ||
+		e == PackageEcosystemElm ||
+		e == PackageEcosystemGitsubmodule ||
+		e == PackageEcosystemGitHubActions ||
+		e == PackageEcosystemGomod ||
+		e == PackageEcosystemGradle ||
+		e == PackageEcosystemMaven ||
+		e == PackageEcosystemMix ||
+		e == PackageEcosystemNpm ||
+		e == PackageEcosystemNuGet ||
+		e == PackageEcosystemPip ||
+		e == PackageEcosystemTerraform {
+		return true
+	}
+	return false
+}
+
+func IsValidScheduleInterval(i string) bool {
+	if i == ScheduleIntervalDaily ||
+		i == ScheduleIntervalWeekly ||
+		i == ScheduleIntervalMonthly {
+		return true
+	}
+	return false
+}
+
+func IsValidScheduleIntervalDay(i string) bool {
+	if i == ScheduleIntervalDayMonday ||
+		i == ScheduleIntervalDayTuesday ||
+		i == ScheduleIntervalDayWednesday ||
+		i == ScheduleIntervalDayThursday ||
+		i == ScheduleIntervalDayFriday ||
+		i == ScheduleIntervalDaySaturday ||
+		i == ScheduleIntervalDaySunday {
+		return true
+	}
+	return false
 }
