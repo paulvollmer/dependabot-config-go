@@ -2,4 +2,7 @@ module github.com/paulvollmer/dependabot-config-go
 
 go 1.14
 
-require gopkg.in/yaml.v2 v2.3.0
+require (
+	github.com/stretchr/testify v1.6.1
+	gopkg.in/yaml.v2 v2.3.0
+)
