@@ -1,9 +1,10 @@
 package config
 
 import (
+	"bytes"
 	"errors"
 
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v4"
 )
 
 // Config for dependabot
@@ -37,7 +38,14 @@ func (c *Config) Unmarshal(data []byte) error {
 }
 
 func (c *Config) Marshal() ([]byte, error) {
-	return yaml.Marshal(c)
+	var buf bytes.Buffer
+	enc := yaml.NewEncoder(&buf)
+	enc.SetIndent(2)
+	defer enc.Close()
+	if err := enc.Encode(c); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
 // Update docs: https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
