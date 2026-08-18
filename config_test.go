@@ -49,10 +49,10 @@ func TestConfigHasPackageEcosystem(t *testing.T) {
 
 var testSample = []byte(`version: 2
 updates:
-- package-ecosystem: gomod
-  directory: /
-  schedule:
-    interval: daily
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: daily
 `)
 
 func TestConfigUnmarshal(t *testing.T) {
